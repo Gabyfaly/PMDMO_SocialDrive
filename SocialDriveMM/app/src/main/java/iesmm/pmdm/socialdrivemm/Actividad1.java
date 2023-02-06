@@ -26,7 +26,7 @@ public class Actividad1 extends AppCompatActivity implements NavigationView.OnNa
     private DrawerLayout drawerLayout;
     private final String filename = "users.csv";
     private String [] linea;
-    private final ArrayList <Usuario> usuarios = new ArrayList();
+    private final ArrayList usuarios = new ArrayList<Usuario>();
     public Usuario user;
     private int cont=0;
     private int posicion=0;
@@ -48,7 +48,7 @@ public class Actividad1 extends AppCompatActivity implements NavigationView.OnNa
                     Bundle bundle = new Bundle();
                     bundle.putString("usuario", usuario);
                     //Llamada de intent
-                    Intent i = new Intent(getApplicationContext(),DetailActivity.class);
+                    Intent i = new Intent(getApplicationContext(),MapsActivity.class);
                     i.putExtras(bundle);
                     startActivity(i);
                 }else {
