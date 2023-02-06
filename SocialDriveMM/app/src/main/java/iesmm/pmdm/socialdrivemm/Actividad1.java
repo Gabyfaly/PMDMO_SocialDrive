@@ -48,7 +48,7 @@ public class Actividad1 extends AppCompatActivity implements NavigationView.OnNa
                     Bundle bundle = new Bundle();
                     bundle.putString("usuario", usuario);
                     //Llamada de intent
-                    Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+                    Intent i = new Intent(getApplicationContext(),InterfazUsuario.class);
                     i.putExtras(bundle);
                     startActivity(i);
                 }else {
@@ -67,32 +67,11 @@ public class Actividad1 extends AppCompatActivity implements NavigationView.OnNa
      */
     private boolean getAccess(String email, String pass){
         boolean res = false;
-        try
-        {
-            //leemos el fichero
-            BufferedReader br = new BufferedReader(new InputStreamReader (openFileInput(filename)));
-            String linea = br.readLine();
-            //Separamos con split(":"),
-            while (linea!=null){
-                String [] lista=linea.split(":");
-                String usuario = lista[0];
-                String contrasenia = lista[1];
-
-                //creamos el nuevo usuario con los valores de la linea separada del archivo csv
-                user = new Usuario(usuario,contrasenia);
-                usuarios.add(user);
-                if (!usuario.equals("") && !pass.equals("") && pass.equals(contrasenia)){
-                    res = true;
-                    posicion=cont;
-
-                }else{
-                    res = false;
-                }
-                linea = br.readLine();
-                cont++;
-            }
+        try{
 
         }
+
+
         catch (Exception ex)
         {
             Log.e("PMDM", "Error al leer fichero desde memoria interna");
