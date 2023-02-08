@@ -1,30 +1,30 @@
 package iesmm.pmdm.socialdrivemm;
 
 public class Usuario {
+    private String username;
+    private String contrasenia;
 
-    public String usuario;
-    public String contrasenia;
-
-    public Usuario(String usuario,String contrasenia) {
-        this.usuario=usuario;
-        this.contrasenia=contrasenia;
-
-    }
-
-    public String getusuario() {
-        return usuario;
-    }
-
-    public void setusuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getcontrasenia() {
-        return contrasenia;
-    }
-
-    public void setcontrasenia(String contrasenia) {
+    public Usuario(String username, String contrasenia) {
+        this.username = username;
         this.contrasenia = contrasenia;
     }
 
+    public Usuario() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
 }

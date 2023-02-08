@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,7 @@ public class InterfazUsuario extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_interfaz);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -46,13 +47,14 @@ public class InterfazUsuario extends AppCompatActivity implements NavigationView
         switch (item.getItemId()){
             case R.id.nav_mapa:
                 //Bundle que te lleve a la pagina de los mapas
-                /*Intent i = new Intent(getApplicationContext(),MapsActivity.class);
-                startActivity(i);*/
+                Toast.makeText(this,"XD",Toast.LENGTH_LONG).show();
                 break;
 
             case R.id.nav_lista:
                 //Bundle que te lleve a la pagina de las listas
                 /*Intent i2 = new Intent(getApplicationContext(),ListFragment.class);
+                Bundle bundle = new Bundle();
+                i2.putExtras(bundle);
                 startActivity(i2);*/
                 break;
 

@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/activity_interfaz.xml" value="0.358695652173913" />
+        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/activity_interfaz.xml" value="0.1" />
         <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/activity_main.xml" value="0.3509963768115942" />
-        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/activity_maps.xml" value="0.3509963768115942" />
+        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/activity_maps.xml" value="0.1" />
+        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/alertdialog_layout.xml" value="0.365625" />
         <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/fragment_list.xml" value="0.3509963768115942" />
-        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/fragment_maps.xml" value="0.3509963768115942" />
+        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/layout/fragment_maps.xml" value="0.1" />
         <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/menu/nav_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/PMDMO_SocialDrive/SocialDriveMM/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.247" />
       </map>
     </option>
   </component>
