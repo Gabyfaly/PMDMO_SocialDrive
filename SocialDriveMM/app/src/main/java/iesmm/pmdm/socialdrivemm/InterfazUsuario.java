@@ -46,16 +46,16 @@ public class InterfazUsuario extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_mapa:
+                Intent i = new Intent(this,MapsActivity.class);
+                startActivity(i);
                 //Bundle que te lleve a la pagina de los mapas
-                Toast.makeText(this,"XD",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Iniciando Mapas...",Toast.LENGTH_LONG).show();
                 break;
 
             case R.id.nav_lista:
                 //Bundle que te lleve a la pagina de las listas
-                /*Intent i2 = new Intent(getApplicationContext(),ListFragment.class);
-                Bundle bundle = new Bundle();
-                i2.putExtras(bundle);
-                startActivity(i2);*/
+                Intent i2 = new Intent(this,ListFragment.class);
+                startActivity(i2);
                 break;
 
             case R.id.nav_salir:

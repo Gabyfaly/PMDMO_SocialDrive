@@ -2,8 +2,9 @@
   <library name="Gradle: androidx.test.services:storage:1.4.2@aar">
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e8a7f73f1af04bf885c6872b3b4e2d92/transformed/storage-1.4.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0b4977ac8fee9c338b57326431ae59e2/transformed/storage-1.4.2/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0b4977ac8fee9c338b57326431ae59e2/transformed/storage-1.4.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a65f9873407e0beb59dacfe044cdc58d/transformed/storage-1.4.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0b4977ac8fee9c338b57326431ae59e2/transformed/storage-1.4.2/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0b4977ac8fee9c338b57326431ae59e2/transformed/storage-1.4.2/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>

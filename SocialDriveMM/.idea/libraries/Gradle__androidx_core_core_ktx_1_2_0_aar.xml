@@ -2,8 +2,9 @@
   <library name="Gradle: androidx.core:core-ktx:1.2.0@aar">
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d6ddfa5c6e3504cc404c2d10a295886e/transformed/core-ktx-1.2.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/2ce56123d0afe547284cfd8ef244ab9f/transformed/core-ktx-1.2.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2ce56123d0afe547284cfd8ef244ab9f/transformed/core-ktx-1.2.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4c1f1a8e2f7667ea525d35f3426b90ad/transformed/core-ktx-1.2.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/2ce56123d0afe547284cfd8ef244ab9f/transformed/core-ktx-1.2.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2ce56123d0afe547284cfd8ef244ab9f/transformed/core-ktx-1.2.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
