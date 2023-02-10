@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<Usuario> usuarios = new ArrayList();
+    ArrayList usuarios = new ArrayList<Usuario>();
     Usuario u;
     int contadorLinea=0;
     int posicion = 0;
