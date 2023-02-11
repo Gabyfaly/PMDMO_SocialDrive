@@ -176,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         alertDialog.setNegativeButton("Cancelar",
                 new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
