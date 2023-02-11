@@ -30,7 +30,7 @@ import iesmm.pmdm.socialdrivemm.dao.DAOImpl;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList usuarios = new ArrayList<Usuario>();
+    ArrayList<Usuario> usuarios = new ArrayList();
     Usuario u;
     int contadorLinea=0;
     int posicion = 0;
