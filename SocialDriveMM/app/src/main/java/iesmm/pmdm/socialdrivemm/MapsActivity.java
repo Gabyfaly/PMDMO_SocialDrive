@@ -3,15 +3,23 @@ package iesmm.pmdm.socialdrivemm;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +32,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,11 +43,12 @@ import java.util.List;
 
 import iesmm.pmdm.socialdrivemm.databinding.ActivityMapsBinding;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener ,GoogleMap.OnMapClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMapClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +60,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        getLocalizacion();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //setSupportActionBar(toolbar);
@@ -58,11 +71,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_nav,R.string.close_nav);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
 
+    }
+
+    //Obtencion de los permisos para obtener la ubicacion actual.
+    private void getLocalizacion() {
+        int permiso = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (permiso == PackageManager.PERMISSION_DENIED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
     }
 
     /**
@@ -81,9 +106,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Asociacion de los escuchadores necesarios.
         mMap.setOnMapClickListener(this);
 
-        //Te centre la camara en sevilla
-        LatLng sevilla = new LatLng(37.396627843214546, -5.982869218981244);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sevilla));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        LocationManager locationManager = (LocationManager) MapsActivity.this.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                //Obtener mi ubicacion
+                LatLng miUbicacion = new LatLng(location.getLatitude(),location.getLongitude());
+                //Mover la camara a la ubicacion actual
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(miUbicacion));
+                //Añadimos efectos
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(miUbicacion).zoom(14).bearing(90).tilt(45).build();
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        };
+        //Actualizacion de datos y le pasamos el escuchador
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,locationListener);
+
     }
 
     @Override
@@ -161,17 +212,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.nav_home:
+                Intent i_interfaz = new Intent(this,InterfazUsuario.class);
+                startActivity(i_interfaz);
+                Toast.makeText(this,"Volviendo a la interfaz principal",Toast.LENGTH_LONG).show();
+                break;
             case R.id.nav_mapa:
-                Intent i = new Intent(this,MapsActivity.class);
-                startActivity(i);
+                Intent i_mapa = new Intent(this,MapsActivity.class);
+                startActivity(i_mapa);
                 //Bundle que te lleve a la pagina de los mapas
                 Toast.makeText(this,"Iniciando Mapas...",Toast.LENGTH_LONG).show();
                 break;
 
             case R.id.nav_lista:
                 //Bundle que te lleve a la pagina de las listas
-                Intent i2 = new Intent(this,ListFragment.class);
-                startActivity(i2);
+                Intent i_lista = new Intent(this,ListView.class);
+                startActivity(i_lista);
+                Toast.makeText(this,"Iniciando lista...",Toast.LENGTH_LONG).show();
                 break;
 
             case R.id.nav_salir:
@@ -184,4 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 }

@@ -3,14 +3,16 @@ package iesmm.pmdm.socialdrivemm;
 import java.sql.Date;
 
 public class Marcador {
-    private String idUsuario;
+    String idMarcador;
+    private String idUsuario_marcador;
     private String latitud;
     private String longitud;
     private String tipo; // radar, multa, control de alcoholemia
     private Date fecha;
 
-    public Marcador(String idUsuario, String latitud, String longitud, String tipo, Date fecha) {
-        this.idUsuario = idUsuario;
+    public Marcador(String idMarcador, String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha) {
+        this.idMarcador = idMarcador;
+        this.idUsuario_marcador = idUsuario_marcador;
         this.latitud = latitud;
         this.longitud = longitud;
         this.tipo = tipo;
@@ -20,12 +22,20 @@ public class Marcador {
     public Marcador() {
     }
 
-    public String getIdUsuario() {
-        return idUsuario;
+    public String getIdMarcador() {
+        return idMarcador;
     }
 
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdMarcador(String idMarcador) {
+        this.idMarcador = idMarcador;
+    }
+
+    public String getIdUsuario_marcador() {
+        return idUsuario_marcador;
+    }
+
+    public void setIdUsuario_marcador(String idUsuario_marcador) {
+        this.idUsuario_marcador = idUsuario_marcador;
     }
 
     public String getLatitud() {
