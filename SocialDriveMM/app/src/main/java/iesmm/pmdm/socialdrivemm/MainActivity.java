@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,19 +25,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import iesmm.pmdm.socialdrivemm.dao.DAO;
+import iesmm.pmdm.socialdrivemm.dao.DAOImpl;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList usuarios = new ArrayList<Usuario>();
     Usuario u;
     int contadorLinea=0;
     int posicion = 0;
-
-
+    private DAOImpl myDb;
+    private DAO dao;
+    private EditText usuario, contrasenia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        dao = new DAOImpl(this);
         Button b = this.findViewById(R.id.boton_iniciar_sesion);
         b.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (getAccess(username,password)){
                     //Contruccion del conjunto de datos a transmitir
                     Bundle bundle = new Bundle();
-                    bundle.putString("email", username);
+                    bundle.putString("usuario", username);
                     //bundle.putString("telefono", usuarios.get(posicion).getTelefono());
                     //bundle.putString("nombre", usuarios.get(posicion).getNombre());
 
@@ -76,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @return devuelve cierto si son correctos y falso en caso contrario
      */
     private boolean getAccess(String username, String password) {
-        boolean res=false;
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("users.csv")));
+                boolean res=false;
+                try {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("users.csv")));
             String linea=br.readLine();
 
             while (linea!=null){

@@ -128,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Mover la camara a la ubicacion actual
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(miUbicacion));
                 //Añadimos efectos
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(miUbicacion).zoom(14).bearing(90).tilt(45).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(miUbicacion).zoom(18).bearing(90).tilt(45).build();
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         };
@@ -226,7 +226,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             case R.id.nav_lista:
                 //Bundle que te lleve a la pagina de las listas
-                Intent i_lista = new Intent(this,ListView.class);
+                Intent i_lista = new Intent(this,InterfazLista.class);
                 startActivity(i_lista);
                 Toast.makeText(this,"Iniciando lista...",Toast.LENGTH_LONG).show();
                 break;

@@ -1,8 +1,6 @@
 package iesmm.pmdm.socialdrivemm;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -60,7 +58,7 @@ public class InterfazUsuario extends AppCompatActivity implements NavigationView
 
             case R.id.nav_lista:
                 //Bundle que te lleve a la pagina de las listas
-                Intent i_lista = new Intent(this,ListView.class);
+                Intent i_lista = new Intent(this, InterfazLista.class);
                 startActivity(i_lista);
                 Toast.makeText(this,"Iniciando lista...",Toast.LENGTH_LONG).show();
                 break;

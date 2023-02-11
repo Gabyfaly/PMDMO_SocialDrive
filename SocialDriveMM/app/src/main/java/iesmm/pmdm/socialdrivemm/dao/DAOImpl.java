@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.Date;
 
+
 public class DAOImpl extends SQLiteOpenHelper implements DAO {
     public static final String DATABASE_NAME = "socialdrivemm.db"; // /data/data/iesmm.pmdm.pmdm_t5_sqlite/databases/alumnos.db
     private static final int VERSION = 13;
@@ -16,6 +17,7 @@ public class DAOImpl extends SQLiteOpenHelper implements DAO {
     public static final String COL_1 = "id_usuario";
     public static final String COL_2 = "usuario";
     public static final String COL_3 = "password";*/
+
 
     public static final String TABLE_MARCADOR = "marcador";
     public static final String COL1_1 = "idMarcador";
@@ -33,7 +35,7 @@ public class DAOImpl extends SQLiteOpenHelper implements DAO {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL("CREATE TABLE " + TABLE_MARCADOR + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR(20), SURNAME VARCHAR(50), MARKS INTEGER) ");
+            db.execSQL("CREATE TABLE" + TABLE_MARCADOR + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR(20), SURNAME VARCHAR(50), MARKS INTEGER) ");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -41,7 +43,8 @@ public class DAOImpl extends SQLiteOpenHelper implements DAO {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_MARCADOR);
+        onCreate(db);
     }
 
 
@@ -65,6 +68,7 @@ public class DAOImpl extends SQLiteOpenHelper implements DAO {
         contentValues.put(COL1_3, latitud);
         contentValues.put(COL1_4, longitud);
         contentValues.put(COL1_5, tipo);
+
         //Revisar
         contentValues.put(COL1_6, String.valueOf(fecha));
         long result = db.insert(TABLE_MARCADOR, null, contentValues);
@@ -88,7 +92,7 @@ public class DAOImpl extends SQLiteOpenHelper implements DAO {
         //Revisar
         contentValues.put(COL1_6, String.valueOf(fecha));
 
-        nrows = db.update(TABLE_MARCADOR, contentValues, "ID = ?", new String[]{idMarcador});
+        nrows = db.update(TABLE_MARCADOR, contentValues, "idMarcador = ?", new String[]{idMarcador});
 
         return nrows > 0;
     }
@@ -98,7 +102,7 @@ public class DAOImpl extends SQLiteOpenHelper implements DAO {
         int result = -1;
         SQLiteDatabase db = this.getWritableDatabase();
         try {
-            db.execSQL("DELETE FROM " + TABLE_MARCADOR + " WHERE ID=" + idMarcador);
+            db.execSQL("DELETE FROM " + TABLE_MARCADOR + " WHERE idMarcador=" + idMarcador);
             result = 1;
         }
         catch (SQLException e) {

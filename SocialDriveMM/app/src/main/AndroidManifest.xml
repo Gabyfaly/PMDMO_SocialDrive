@@ -40,6 +40,9 @@
         <activity android:name=".MainActivity"
             android:exported="false"/>
 
+        <activity android:name=".InterfazLista"
+            android:exported="false"/>
+
         <activity
             android:name=".InterfazUsuario"
             android:exported="true">

@@ -2,17 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/blue_white"
     android:orientation="vertical"
     android:padding="48dp">
 
-    <TextView
-        android:id="@+id/texto_conectar"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:text="Acceso login"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <ImageView
+        android:layout_width="482dp"
+        android:id="@+id/logoSocialDrive"
+        android:layout_height="210dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"
+        app:srcCompat="@drawable/logo"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:fontFamily="monospace"
+        android:textSize="40dp"
+        android:paddingLeft="90dp"/>
 
     <EditText
         android:id="@+id/input_usuario"
@@ -20,7 +29,8 @@
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:hint="Correo" />
+        android:textColor="@color/negro"
+        android:hint="Usuario" />
 
     <EditText
         android:id="@+id/input_contrasena"
@@ -34,9 +44,8 @@
 
     <Button
         android:id="@+id/boton_iniciar_sesion"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="match_parent"
-        android:background="@color/purple_200"
+        android:background="@drawable/boton_redondo"
         android:textColor="@color/black"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
