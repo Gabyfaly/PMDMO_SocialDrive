@@ -1,8 +1,12 @@
 package iesmm.pmdm.socialdrivemm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,11 +62,19 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 String username = usuarioText.getText().toString();
                 String password =contraseniaText.getText().toString();
 
-                Usuario usuario = new Usuario("user", "password");
+                //Usuario usuario = new Usuario("user", "password");
 
                 //Comprobación de los campos introducidos en los EditText con los usuarios de la base de datos.
                 new LoginTask().execute(username, password);
+                if(username.equals("") || password.equals("")){
+                    Toast.makeText(LoginActivity.this, "Campos vacios", Toast.LENGTH_SHORT).show();
+                }
 
+
+                /*if (checkValue(username,password)==true){
+                    Toast.makeText(LoginActivity.this, "Usuario correcto", Toast.LENGTH_SHORT).show();
+                }else
+                    Toast.makeText(LoginActivity.this, "Usuario incorrecto", Toast.LENGTH_SHORT).show();*/
             }
         });
     }
@@ -81,10 +95,38 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         protected Boolean doInBackground(String... strings) {
             String username = strings[0];
             String password = strings[1];
-            return ValidarUsuario(username, password);
+            return checkValue(username, password);
         }
 
-        private boolean ValidarUsuario(String username, String password) {
+
+        public boolean checkValue(String usu, String cont) {
+            boolean isValid = false;
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/socialdrivemm", "root", "root");
+                String sql = "SELECT username,contrasenia FROM usuario";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    String usuario = resultSet.getString("username");
+                    String password = resultSet.getString("contrasenia");
+                    if (usuario.equals(usu) && password.equals(cont)) {
+                        isValid=true;
+                    }
+                }
+
+                connection.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return isValid;
+        }
+
+        /*private boolean ValidarUsuario(String username, String password) {
             Connection connection = null;
             Statement statement = null;
             ResultSet resultSet = null;
@@ -113,18 +155,43 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                     Log.e(TAG, "Error en el cierre de recursos", e);
                 }
             }
-        }
+        }*/
 
         @Override
         protected void onPostExecute(Boolean res) {
             if(res){
-                Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+                Intent intent = new Intent(LoginActivity.this, InterfazUsuario.class);
                 startActivity(intent);
-                finish();
+                Toast.makeText(LoginActivity.this,"Iniciando la interfaz de usuario", Toast.LENGTH_LONG).show();
             }else {
                 Toast.makeText(LoginActivity.this,"Error de acceso: Usuario o Contraseña incorrectos", Toast.LENGTH_LONG).show();
             }
             super.onPostExecute(res);
         }
     }
+
+    /*public boolean checkValue(String usu, String cont) {
+        boolean isValid = false;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/socialdrivemm", "root", "root");
+            String sql = "SELECT username,contrasenia FROM usuario";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String usuario = resultSet.getString("username");
+                String password = resultSet.getString("contrasenia");
+                if (usuario.equals(usu) && password.equals(cont)) {
+                    Intent intent = new Intent(LoginActivity.this, InterfazUsuario.class);
+                    startActivity(intent);
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isValid;
+    }*/
+
+
 }

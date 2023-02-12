@@ -1,6 +1,6 @@
 package iesmm.pmdm.socialdrivemm;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Marcador {
     String idMarcador;
@@ -20,6 +20,19 @@ public class Marcador {
     }
 
     public Marcador() {
+    }
+
+    public Marcador(String latitud, String longitud, String tipo, Date fecha) {
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.tipo = tipo;
+        this.fecha = fecha;
+    }
+
+    public Marcador(String latitud, String longitud, String tipo) {
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.tipo = tipo;
     }
 
     public String getIdMarcador() {

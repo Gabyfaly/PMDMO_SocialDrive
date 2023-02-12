@@ -37,14 +37,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDaj8YOpisRjWWiGd9Yf61zqz7FDn5fpOc" />
 
-        <activity android:name=".LoginActivity"
+        <activity android:name=".InterfazUsuario"
             android:exported="false"/>
 
         <activity android:name=".InterfazLista"
             android:exported="false"/>
 
         <activity
-            android:name=".InterfazUsuario"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

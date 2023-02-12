@@ -104,7 +104,7 @@ public class DAOImpl implements DAO {
             statement.setString(1, marcador.getLatitud());
             statement.setString(2, marcador.getLongitud());
             statement.setString(3, marcador.getTipo());
-            statement.setDate(4, marcador.getFecha());
+            //statement.setDate(4, marcador.getFecha());
             statement.setString(5, marcador.getIdUsuario_marcador());
 
             // Ejecuta la consulta

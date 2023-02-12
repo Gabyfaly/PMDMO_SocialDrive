@@ -7,14 +7,14 @@
     android:orientation="vertical"
     android:padding="48dp">
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SocialDriveMM"
         android:fontFamily="monospace"
-        android:textSize="28dp"
+        android:textSize="26dp"
         android:textStyle="bold"
-        android:paddingLeft="50dp"/>
+        android:paddingLeft="40dp"/>
 
     <ImageView
         android:id="@+id/logoSocialDrive"
