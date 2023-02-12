@@ -1,113 +1,164 @@
 package iesmm.pmdm.socialdrivemm.dao;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import iesmm.pmdm.socialdrivemm.Conexion.ConnectionHelper;
+import iesmm.pmdm.socialdrivemm.Marcador;
 
 
-public class DAOImpl extends SQLiteOpenHelper implements DAO {
-    public static final String DATABASE_NAME = "socialdrivemm.db"; // /data/data/iesmm.pmdm.pmdm_t5_sqlite/databases/alumnos.db
-    private static final int VERSION = 13;
-   /* public static final String TABLE_USUARIO = "usuario";
-    public static final String COL_1 = "id_usuario";
-    public static final String COL_2 = "usuario";
-    public static final String COL_3 = "password";*/
+public class DAOImpl implements DAO {
 
 
-    public static final String TABLE_MARCADOR = "marcador";
-    public static final String COL1_1 = "idMarcador";
-    public static final String COL1_2 = "idUsuario_marcador";
-    public static final String COL1_3 = "latitud";
-    public static final String COL1_4 = "longitud";
-    public static final String COL1_5 = "tipo";
-    public static final String COL1_6 = "fecha";
 
 
-    public DAOImpl(Context context) {
-        super(context, DATABASE_NAME, null, VERSION);
-    }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        try {
-            db.execSQL("CREATE TABLE" + TABLE_MARCADOR + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR(20), SURNAME VARCHAR(50), MARKS INTEGER) ");
+    /**
+     * Este método devuelve una Lista de marcadores para obtener todos los insertados
+     * en la tabla marcador de la base de datos socialdrivemm, mediante nuestra clase
+     * ConnectionHelper creamos conexión con la base de datos local.
+     *
+     * @return Lista de objetos Marcador con los datos guardados en la base de datos
+     */
+
+    public List<Marcador> getAllMarcadores() {
+        List<Marcador> result = new ArrayList<>();
+        try (Connection conexion = ConnectionHelper.getConnection()) {
+            String consulta = "SELECT * FROM marcador";
+            try (PreparedStatement statement = conexion.prepareStatement(consulta)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Marcador marcador = new Marcador();
+                        marcador.setIdUsuario_marcador(resultSet.getString("idUsuario_marcador"));
+                        marcador.setLatitud(resultSet.getString("latitud"));
+                        marcador.setLongitud(resultSet.getString("longitud"));
+                        marcador.setTipo(resultSet.getString("tipo"));
+                        marcador.setFecha(resultSet.getDate("fecha"));
+                        result.add(marcador);
+                    }
+                }
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE_MARCADOR);
-        onCreate(db);
-    }
-
-
-    //Obtener todos los datos de la base de datos Marcador
-    @Override
-    public Cursor getAllDataMarcador() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_MARCADOR, null);
-        return res;
-
-    }
-
-    @Override
-    public boolean insert(String idMarcador, String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // Datos a insertar
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1_1, idMarcador);
-        contentValues.put(COL1_2, idUsuario_marcador);
-        contentValues.put(COL1_3, latitud);
-        contentValues.put(COL1_4, longitud);
-        contentValues.put(COL1_5, tipo);
-
-        //Revisar
-        contentValues.put(COL1_6, String.valueOf(fecha));
-        long result = db.insert(TABLE_MARCADOR, null, contentValues);
-
-        // Devuelve el row id, -1 si ha ocurrido algún error
-        return result != -1;
-    }
-
-    @Override
-    public boolean update(String idMarcador, String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha) {
-        int nrows = 0;
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // Datos a actualizar
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1_1, idMarcador);
-        contentValues.put(COL1_2, idUsuario_marcador);
-        contentValues.put(COL1_3, latitud);
-        contentValues.put(COL1_4, longitud);
-        contentValues.put(COL1_5, tipo);
-        //Revisar
-        contentValues.put(COL1_6, String.valueOf(fecha));
-
-        nrows = db.update(TABLE_MARCADOR, contentValues, "idMarcador = ?", new String[]{idMarcador});
-
-        return nrows > 0;
-    }
-
-    @Override
-    public int delete(String idMarcador) {
-        int result = -1;
-        SQLiteDatabase db = this.getWritableDatabase();
-        try {
-            db.execSQL("DELETE FROM " + TABLE_MARCADOR + " WHERE idMarcador=" + idMarcador);
-            result = 1;
-        }
-        catch (SQLException e) {
+            // Manejar la excepción
+        } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
+
+    /**
+     * Método para insertar los datos de los marcadores creados en el mapa.
+     *
+     * @param idUsuario_marcador id usuario
+     * @param latitud latitud del marcador
+     * @param longitud longitud del marcador
+     * @param tipo tipo multa,radar,control
+     * @param fecha fecha y hora del marcador
+     */
+    public void insertarMarcador(String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha) {
+        Connection conexion = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conexion = ConnectionHelper.getConnection();
+            preparedStatement = conexion.prepareStatement("INSERT INTO marcador (idUsuario_marcador, latitud, longitud, tipo, fecha) VALUES (?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, idUsuario_marcador);
+            preparedStatement.setString(2, latitud);
+            preparedStatement.setString(3, longitud);
+            preparedStatement.setString(4, tipo);
+            preparedStatement.setDate(5, (java.sql.Date) fecha);
+            preparedStatement.executeUpdate();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateMarcador(Marcador marcador) {
+        Connection conexion = null;
+        PreparedStatement statement = null;
+        try {
+            // Establece la conexión con la base de datos
+            conexion = ConnectionHelper.getConnection();
+
+            // Crea la sentencia SQL para actualizar el registro
+            String sql = "UPDATE marcadores SET latitud = ?, longitud = ?, tipo = ?, fecha = ? WHERE idUsuario_marcador = ?";
+            statement = conexion.prepareStatement(sql);
+
+            // Establece los valores de los parámetros
+            statement.setString(1, marcador.getLatitud());
+            statement.setString(2, marcador.getLongitud());
+            statement.setString(3, marcador.getTipo());
+            statement.setDate(4, marcador.getFecha());
+            statement.setString(5, marcador.getIdUsuario_marcador());
+
+            // Ejecuta la consulta
+            statement.executeUpdate();
+        } catch (SQLException | java.sql.SQLException e) {
+            // Maneja la excepción
+            e.printStackTrace();
+        } finally {
+            // Cierra la conexión y la sentencia
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (SQLException | java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    @Override
+    public boolean delete(String idMarcador) {
+        Connection conexion = null;
+        PreparedStatement statement = null;
+        try {
+            // Establece la conexión con la base de datos
+            conexion = ConnectionHelper.getConnection();
+
+            // Crea la sentencia SQL para borrar el registro
+            statement = conexion.prepareStatement("DELETE FROM marcadores WHERE id_marcador = ?");
+            statement.setString(1, idMarcador);
+            int filasAfectadas = statement.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (SQLException | java.sql.SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+
+

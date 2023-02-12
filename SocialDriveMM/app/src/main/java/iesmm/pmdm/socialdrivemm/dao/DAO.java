@@ -1,12 +1,13 @@
 package iesmm.pmdm.socialdrivemm.dao;
 
-import android.database.Cursor;
-
 import java.util.Date;
+import java.util.List;
+
+import iesmm.pmdm.socialdrivemm.Marcador;
 
 public interface DAO {
-    public Cursor getAllDataMarcador();
-    public boolean insert(String idMarcador, String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha);
-    public boolean update(String idMarcador, String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha);
-    public int delete(String idMarcador);
+    public List<Marcador> getAllMarcadores();
+    public void insertarMarcador(String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha);
+    public void updateMarcador(Marcador marcador);
+    public boolean delete(String idMarcador);
 }
