@@ -37,7 +37,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDaj8YOpisRjWWiGd9Yf61zqz7FDn5fpOc" />
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".LoginActivity"
             android:exported="false"/>
 
         <activity android:name=".InterfazLista"
