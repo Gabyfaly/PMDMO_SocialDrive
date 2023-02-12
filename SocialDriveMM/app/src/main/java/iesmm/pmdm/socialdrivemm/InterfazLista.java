@@ -10,6 +10,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import iesmm.pmdm.socialdrivemm.dao.DAO;
 import iesmm.pmdm.socialdrivemm.dao.DAOImpl;
@@ -33,10 +34,11 @@ public class InterfazLista extends AppCompatActivity {
     private void addItemsInListView(ArrayList listaMarcadores) {
          lista = findViewById(R.id.listViewMarcadores);
     }
+// TODO Tienes que teminar tienes que recorrer la lista y meter los datos de los marcadores.
 
     public void viewData() {
-        Cursor res = dao.getAllDataMarcador();
-        if (res.getCount() > 0) {
+        List<Marcador> res = dao.getAllMarcadores();
+        /*if (res.getCount() > 0) {
             StringBuffer buffer = new StringBuffer();
 
             while (res.moveToNext()) {
@@ -52,8 +54,10 @@ public class InterfazLista extends AppCompatActivity {
         } else
             showMessage("Error", "Ningún dato encontrado");
 
-
+*/
     }
+
+
 
     public void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
