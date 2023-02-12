@@ -5,14 +5,14 @@ public class Usuario {
     private String username;
     private String contrasenia;
 
-    public Usuario(String idUsuario, String username, String contrasenia) {
-        this.idUsuario = idUsuario;
+    public Usuario(String username, String contrasenia) {
         this.username = username;
         this.contrasenia = contrasenia;
     }
 
     public Usuario() {
     }
+
 
     public String getIdUsuario() {
         return idUsuario;
@@ -36,5 +36,14 @@ public class Usuario {
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    public boolean checkUser(String usuarioEditText, String contraseniaEditText) {
+
+        if (usuarioEditText.equals(username) && contraseniaEditText.equals(contrasenia)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
