@@ -8,7 +8,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,9 @@ import iesmm.pmdm.socialdrivemm.model.Marcador;
 public class InterfazLista extends AppCompatActivity {
     private DAOImpl myDb;
     ListView lista;
+    private DrawerLayout drawerLayout;
     private DAOImpl dao;
+    Marcador m;
     private ArrayAdapter adaptador;
     ArrayList<Marcador> ubicaciones = new ArrayList();
     ArrayList<String> nombres = new ArrayList<>();
@@ -30,21 +37,13 @@ public class InterfazLista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
 
-        /*SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/mm/yyyy");
-        Date fecha = null;
-        try {
-             fecha = formatoFecha.parse("15/05/2022");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
-        ubicaciones.add(new Marcador("30","34","Multa"));
+        //ubicaciones.add(new Marcador(m.getLatitud(),m.getLongitud(),m.getTipo()));
         nombres.add("Calle Sorpepita");
+        nombres.add("Gabriel");
         addItemsInListView(ubicaciones, nombres);
     }
 
 
-// TODO Tienes que teminar tienes que recorrer la lista y meter los datos de los marcadores.
 
     public void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

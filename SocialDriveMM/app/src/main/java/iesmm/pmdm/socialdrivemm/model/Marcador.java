@@ -10,6 +10,14 @@ public class Marcador {
     private String tipo; // radar, multa, control de alcoholemia
     private Date fecha;
 
+    public Marcador(String idMarcador, String idUsuario_marcador, String latitud, String longitud, String tipo) {
+        this.idMarcador = idMarcador;
+        this.idUsuario_marcador = idUsuario_marcador;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.tipo = tipo;
+    }
+
     public Marcador(String idMarcador, String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha) {
         this.idMarcador = idMarcador;
         this.idUsuario_marcador = idUsuario_marcador;
@@ -20,20 +28,9 @@ public class Marcador {
     }
 
     public Marcador() {
+
     }
 
-    public Marcador(String latitud, String longitud, String tipo, Date fecha) {
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.tipo = tipo;
-        this.fecha = fecha;
-    }
-
-    public Marcador(String latitud, String longitud, String tipo) {
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.tipo = tipo;
-    }
 
     public String getIdMarcador() {
         return idMarcador;

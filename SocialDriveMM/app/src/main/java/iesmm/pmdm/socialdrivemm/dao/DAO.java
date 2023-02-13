@@ -8,8 +8,8 @@ import iesmm.pmdm.socialdrivemm.model.Usuario;
 
 public interface DAO {
     public List<Marcador> getAllMarcadores();
-    public void insertarMarcador(String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha);
+    public void insertarMarcador(Marcador marcador);
     public void updateMarcador(Marcador marcador);
     public boolean delete(String idMarcador);
-    public Usuario comprobarUsuario(Usuario usuario);
+
 }

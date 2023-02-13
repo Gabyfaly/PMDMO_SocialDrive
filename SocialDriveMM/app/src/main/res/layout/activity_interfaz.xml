@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/fondo"
     android:id="@+id/drawer_layout"
-    tools:context=".InterfazUsuario"
+    android:background="@drawable/fondo"
+    tools:context=".InterfazLista"
     tools:openDrawer="start">
 
     <LinearLayout

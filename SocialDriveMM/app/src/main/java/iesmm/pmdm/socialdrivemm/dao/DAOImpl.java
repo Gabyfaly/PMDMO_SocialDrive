@@ -52,43 +52,32 @@ public class DAOImpl implements DAO {
         return result;
     }
 
-    /**
-     * Método para insertar los datos de los marcadores creados en el mapa.
-     *
-     * @param idUsuario_marcador id usuario
-     * @param latitud latitud del marcador
-     * @param longitud longitud del marcador
-     * @param tipo tipo multa,radar,control
-     * @param fecha fecha y hora del marcador
-     */
-    public void insertarMarcador(String idUsuario_marcador, String latitud, String longitud, String tipo, Date fecha) {
-        Connection conexion = null;
-        PreparedStatement preparedStatement = null;
-
+    @Override
+    public void insertarMarcador(Marcador marcador) {
+        Connection c = null;
+        boolean value = false;
+        String sql="INSERT INTO marcador VALUES (?,?,?,?,?)";
         try {
-            conexion = ConnectionHelper.getConnection();
-            preparedStatement = conexion.prepareStatement("INSERT INTO marcador (idUsuario_marcador, latitud, longitud, tipo, fecha) VALUES (?, ?, ?, ?, ?)");
-            preparedStatement.setString(1, idUsuario_marcador);
-            preparedStatement.setString(2, latitud);
-            preparedStatement.setString(3, longitud);
-            preparedStatement.setString(4, tipo);
-            preparedStatement.setDate(5, (java.sql.Date) fecha);
-            preparedStatement.executeUpdate();
+            c= ConnectionHelper.getConnection();
+            PreparedStatement sqlstatement= c.prepareStatement(sql);
+            sqlstatement.setString(1, marcador.getIdMarcador());
+            sqlstatement.setString(2, marcador.getIdUsuario_marcador());
+            sqlstatement.setString(3, marcador.getLatitud());
+            sqlstatement.setString(4, marcador.getLongitud());
+            sqlstatement.setString(5, marcador.getTipo());
+            sqlstatement.executeUpdate();
+            c.commit();
+            c.close();
+
+Marcador marcador3 = new Marcador();
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
         }
+
     }
+
+
+
 
     public void updateMarcador(Marcador marcador) {
         Connection conexion = null;
@@ -161,30 +150,7 @@ public class DAOImpl implements DAO {
         }
     }
 
-    @Override
-    public Usuario comprobarUsuario(Usuario usuario) {
-        Connection c = null;
 
-        try{
-            c=ConnectionHelper.getConnection();
-            int idUsuario = 0;
-            String sql = "Select idUsuario from usuario where username=? and contrasenia=?";
-            PreparedStatement sqlstatement = c.prepareStatement(sql);
-            sqlstatement.setString(1,usuario.getUsername());
-            sqlstatement.setString(2,usuario.getContrasenia());
-
-            ResultSet set = sqlstatement.executeQuery();
-            if (set.next()){
-                idUsuario = set.getInt("idUsuario");
-                usuario.setIdUsuario(String.valueOf(idUsuario));
-            }
-            set.close();
-            c.close();
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
-        return usuario;
-    }
 }
 
 

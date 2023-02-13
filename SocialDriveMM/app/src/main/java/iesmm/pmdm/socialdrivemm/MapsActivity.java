@@ -20,6 +20,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,12 +41,15 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import iesmm.pmdm.socialdrivemm.dao.DAOImpl;
 import iesmm.pmdm.socialdrivemm.databinding.ActivityMapsBinding;
+import iesmm.pmdm.socialdrivemm.model.Marcador;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMapClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener {
 
@@ -53,6 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private DrawerLayout drawerLayout;
     private DAOImpl dao;
+    private String idUsuario;
+    private boolean valueReturn=false;
+    private int idMarcador=1;
+    private List<Marcador> marcadores;
     //Obtener la hora actual
     Calendar calendar = Calendar.getInstance();
     Date fecha = calendar.getTime();
@@ -60,6 +68,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dao = new DAOImpl();
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -82,6 +92,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        Bundle bundle2 = getIntent().getExtras();
+        if(bundle2!=null) {
+            idUsuario  = bundle2.getString("idUsuario");
+        }
 
 
     }
@@ -152,7 +167,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
-        Geocoder geocoder = new Geocoder(this);
+        try{
+            Geocoder geocoder = new Geocoder(this);
+            List<Address> direcciones = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            Address direccion = direcciones.get(0);
+            String calle = direccion.getAddressLine(0);
+
+
         //Cuando pulses cree el alertDialog para introducir el tipo
         showAlertDialog();
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -165,21 +186,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LinearLayout.LayoutParams.MATCH_PARENT);
         tipo.setLayoutParams(lp);
         alertDialog.setView(tipo);
+        //Obtenemos el objeto Address
+
+
+
 
         alertDialog.setPositiveButton("Aceptar",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+
                         String infoTipo = tipo.getText().toString();
-                        Toast.makeText(getApplicationContext(),infoTipo,Toast.LENGTH_LONG).show();
+
                         //Introduce en la base de datos los datos del usuario
-                        //dao.insertarMarcador("id",String.valueOf(latLng.latitude),String.valueOf(latLng.longitude),infoTipo,fecha);
+
 
                         //INTRODUCIR TAMBIEN LA CALLE
                         if (infoTipo.equalsIgnoreCase("Radar")){
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude,latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.radar)));
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude,latLng.longitude)).title(calle).icon(BitmapDescriptorFactory.fromResource(R.drawable.radar)));
+                           dao.insertarMarcador(new Marcador("1","1","34","32",infoTipo));
+                            Toast.makeText(getApplicationContext(),"Radar insertado correctamente",Toast.LENGTH_LONG).show();
+
                         }else if(infoTipo.equalsIgnoreCase("multa")) {
                             mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.multa)));
+
                         }else if(infoTipo.equalsIgnoreCase("control")) {
                             mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.control)));
+
                         }else
                             Toast.makeText(MapsActivity.this, "Introduzca un tipo de incidencia correcto", Toast.LENGTH_SHORT).show();
                     }
@@ -196,7 +227,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alertDialog.show();
 
         //GEOCODING DE LA POSICION
-
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAlertDialog() {

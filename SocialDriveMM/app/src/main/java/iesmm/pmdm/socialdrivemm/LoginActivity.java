@@ -75,8 +75,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 /*if (checkValue(username,password)==true){
                     Toast.makeText(LoginActivity.this, "Usuario correcto", Toast.LENGTH_SHORT).show();
                 }else
-                    Toast.makeText(LoginActivity.this, "Usuario incorrecto", Toast.LENGTH_SHORT).show();*/
-
+                    Toast.makeText(LoginActivity.this, "Usuario incorrecto", Toast.LENGTH_SHORT).show();
+*/
             }
         });
     }
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         public boolean checkValue(String usu, String cont) {
             String consulta = "SELECT * FROM usuario";
             try {
-                Class.forName("com.mysql.jc.jdbc.Driver");
+                Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = ConnectionHelper.getConnection();
                 PreparedStatement statement = connection.prepareStatement(consulta);
                 ResultSet resultSet = statement.executeQuery();
@@ -112,31 +112,30 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                     String usuario = resultSet.getString("username");
                     String password = resultSet.getString("contrasenia");
                     if (usuario.equals(usu) && password.equals(cont)) {
-                        Toast.makeText(LoginActivity.this, "Usuario correcto", Toast.LENGTH_SHORT).show();
-                        /*Intent i = new Intent(LoginActivity.this,InterfazUsuario.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("username",usuario);
-                        i.putExtras(bundle);
-                        startActivity(i);*/
+                        //Toast.makeText(LoginActivity.this, "Usuario correcto", Toast.LENGTH_SHORT).show();
+
                         isValid = true;
+                        Intent i = new Intent(LoginActivity.this, InterfazUsuario.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("idUsuario",id);
+                        i.putExtras(bundle);
+                        startActivity(i);
                         //Para de seguir leyendo lineas ya que te devuelve false cnd coinciden
-                        return false;
-                    }else
-                        Toast.makeText(LoginActivity.this, "Incorrecto", Toast.LENGTH_SHORT).show();
+
+                    }
+                        //Toast.makeText(LoginActivity.this, "Incorrecto", Toast.LENGTH_SHORT).show();
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return isValid=true;
+            return isValid;
         }
 
 
         @Override
         protected void onPostExecute(Boolean res) {
             if(res){
-                Intent intent = new Intent(LoginActivity.this, InterfazUsuario.class);
-                startActivity(intent);
                 Toast.makeText(LoginActivity.this,"Iniciando la interfaz de usuario", Toast.LENGTH_LONG).show();
             }else {
                 Toast.makeText(LoginActivity.this,"Error de acceso: Usuario o Contraseña incorrectos", Toast.LENGTH_LONG).show();

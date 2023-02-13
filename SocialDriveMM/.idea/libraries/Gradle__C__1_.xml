@@ -1,7 +1,6 @@
 <component name="libraryTable">
-  <library name="Gradle: D (1)">
+  <library name="Gradle: C (1)">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/ojdbc8.jar!/" />
       <root url="jar://$PROJECT_DIR$/app/lib/ojdbc8.jar!/" />
     </CLASSES>
     <JAVADOC />

@@ -18,7 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 
 
 public class InterfazUsuario extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    private String id;
     private DrawerLayout drawerLayout;
     private TextView texto;
     //Creacion del layout con el menu
@@ -40,11 +40,12 @@ public class InterfazUsuario extends AppCompatActivity implements NavigationView
 
         texto = this.findViewById(R.id.texto);
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
-            String mensaje = bundle.getString("username");
-            texto.setText(mensaje);
-        }else
-            Toast.makeText(this, "Bundle vacio", Toast.LENGTH_SHORT).show();
+        if(bundle!=null) {
+            String id = bundle.getString("idUsuario");
+            texto.setText("Usuario con id: " + id);
+
+        }
+
 
     }
 
@@ -52,9 +53,17 @@ public class InterfazUsuario extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_home:
-                Intent i_interfaz = new Intent(this,InterfazUsuario.class);
-                startActivity(i_interfaz);
-                Toast.makeText(this,"Volviendo a la interfaz principal",Toast.LENGTH_LONG).show();
+
+                Bundle bundle1 = new Bundle();
+                if(bundle1!=null){
+                    Intent i = new Intent(InterfazUsuario.this, MapsActivity.class);
+                    bundle1.putString("idUsuario",id);
+                    i.putExtras(bundle1);
+                    startActivity(i);
+                    Toast.makeText(this, "idUsuario: "+id, Toast.LENGTH_SHORT).show();
+                }else
+                    Toast.makeText(this, "Bundle vacio", Toast.LENGTH_SHORT).show();
+
                 break;
 
             case R.id.nav_mapa:
