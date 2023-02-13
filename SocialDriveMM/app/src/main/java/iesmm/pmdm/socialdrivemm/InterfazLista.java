@@ -38,8 +38,8 @@ public class InterfazLista extends AppCompatActivity {
         setContentView(R.layout.activity_listview);
 
         //ubicaciones.add(new Marcador(m.getLatitud(),m.getLongitud(),m.getTipo()));
-        nombres.add("Calle Sorpepita");
-        nombres.add("Gabriel");
+        nombres.add("Calle Perez Galdos");
+        nombres.add("Calle Santa Lucia");
         addItemsInListView(ubicaciones, nombres);
     }
 

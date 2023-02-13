@@ -206,10 +206,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Toast.makeText(getApplicationContext(),"Radar insertado correctamente",Toast.LENGTH_LONG).show();
 
                         }else if(infoTipo.equalsIgnoreCase("multa")) {
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.multa)));
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(calle).icon(BitmapDescriptorFactory.fromResource(R.drawable.multa)));
 
                         }else if(infoTipo.equalsIgnoreCase("control")) {
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.control)));
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(calle).icon(BitmapDescriptorFactory.fromResource(R.drawable.control)));
 
                         }else
                             Toast.makeText(MapsActivity.this, "Introduzca un tipo de incidencia correcto", Toast.LENGTH_SHORT).show();
