@@ -39,8 +39,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import iesmm.pmdm.socialdrivemm.dao.DAOImpl;
 import iesmm.pmdm.socialdrivemm.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMapClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener {
@@ -48,6 +52,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private DrawerLayout drawerLayout;
+    private DAOImpl dao;
+    //Obtener la hora actual
+    Calendar calendar = Calendar.getInstance();
+    Date fecha = calendar.getTime();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +170,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onClick(DialogInterface dialog, int which) {
                         String infoTipo = tipo.getText().toString();
                         Toast.makeText(getApplicationContext(),infoTipo,Toast.LENGTH_LONG).show();
+                        //Introduce en la base de datos los datos del usuario
+                        //dao.insertarMarcador("id",String.valueOf(latLng.latitude),String.valueOf(latLng.longitude),infoTipo,fecha);
+
                         //INTRODUCIR TAMBIEN LA CALLE
                         if (infoTipo.equalsIgnoreCase("Radar")){
                             mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude,latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.radar)));
@@ -169,7 +180,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.multa)));
                         }else if(infoTipo.equalsIgnoreCase("control")) {
                             mMap.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude)).title(infoTipo).icon(BitmapDescriptorFactory.fromResource(R.drawable.control)));
-                        }
+                        }else
+                            Toast.makeText(MapsActivity.this, "Introduzca un tipo de incidencia correcto", Toast.LENGTH_SHORT).show();
                     }
 
                 });

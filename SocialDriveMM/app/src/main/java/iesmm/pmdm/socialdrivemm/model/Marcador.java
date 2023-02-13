@@ -1,4 +1,4 @@
-package iesmm.pmdm.socialdrivemm;
+package iesmm.pmdm.socialdrivemm.model;
 
 import java.util.Date;
 

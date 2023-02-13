@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import iesmm.pmdm.socialdrivemm.Conexion.ConnectionHelper;
-import iesmm.pmdm.socialdrivemm.Marcador;
+import iesmm.pmdm.socialdrivemm.model.Marcador;
+import iesmm.pmdm.socialdrivemm.model.Usuario;
 
 
 public class DAOImpl implements DAO {
@@ -158,6 +159,31 @@ public class DAOImpl implements DAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public Usuario comprobarUsuario(Usuario usuario) {
+        Connection c = null;
+
+        try{
+            c=ConnectionHelper.getConnection();
+            int idUsuario = 0;
+            String sql = "Select idUsuario from usuario where username=? and contrasenia=?";
+            PreparedStatement sqlstatement = c.prepareStatement(sql);
+            sqlstatement.setString(1,usuario.getUsername());
+            sqlstatement.setString(2,usuario.getContrasenia());
+
+            ResultSet set = sqlstatement.executeQuery();
+            if (set.next()){
+                idUsuario = set.getInt("idUsuario");
+                usuario.setIdUsuario(String.valueOf(idUsuario));
+            }
+            set.close();
+            c.close();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return usuario;
     }
 }
 

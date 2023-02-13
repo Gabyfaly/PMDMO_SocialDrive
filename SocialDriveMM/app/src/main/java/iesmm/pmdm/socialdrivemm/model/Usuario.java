@@ -1,4 +1,4 @@
-package iesmm.pmdm.socialdrivemm;
+package iesmm.pmdm.socialdrivemm.model;
 
 public class Usuario {
     private String idUsuario;

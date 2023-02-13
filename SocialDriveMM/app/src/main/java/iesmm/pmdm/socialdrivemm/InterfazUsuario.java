@@ -2,6 +2,7 @@ package iesmm.pmdm.socialdrivemm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -19,7 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 public class InterfazUsuario extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
-
+    private TextView texto;
     //Creacion del layout con el menu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,13 @@ public class InterfazUsuario extends AppCompatActivity implements NavigationView
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        texto = this.findViewById(R.id.texto);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            String mensaje = bundle.getString("username");
+            texto.setText(mensaje);
+        }else
+            Toast.makeText(this, "Bundle vacio", Toast.LENGTH_SHORT).show();
 
     }
 
